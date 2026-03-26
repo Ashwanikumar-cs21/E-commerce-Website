@@ -4,13 +4,15 @@ const path = require('path');
 const mysql = require("mysql2");
 const dotenv = require('dotenv');
 
-app.use(cors());
+
 
 
 dotenv.config({ path: './.env'});
 
 
 const app = express();
+
+app.use(cors());
 
 const db = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -45,7 +47,7 @@ db.connect( (error) => {
 //Define Routes
 app.use('/', require('./routes/pages'));
 app.use('/auth',require('./routes/auth'));
-pp.use('/api', require('./routes/auth'));
+app.use('/api', require('./routes/auth'));
 
 
 const PORT = process.env.PORT || 5000;
