@@ -49,11 +49,14 @@ exports.login = async (req, res) => {
 
             if (!results || results.length === 0 || !(await bcrypt.compare(password, results[0].password))) {
                 // Incorrect email or password
-                return res.status(400).render('login', {
+                return res.status(400).json({
                     message: 'Incorrect email or password'
                 });
             }
-            return res.render('home');
+            return res.json({
+                message: "Login successful",
+                user: results[0]
+            });
         });
     } catch (error) {
         console.error(error);
@@ -65,28 +68,25 @@ exports.register = async (req, res) => {
     const { name, email, password, passwordConfirm } = req.body;
 
     try {
-        const results = await db.query('SELECT email FROM users WHERE email = ?', [email]);
+        db.query('SELECT email FROM users WHERE email = ?', [email], async (err, results) => {
+    if (err) return res.status(500).json({ error: err });
 
-        if (results.length > 0) {
-            return res.render('register', {
-                message: 'That email is already in use'
-            });
-        } else if (password !== passwordConfirm) {
-            return res.render('register', {
-                message: 'Passwords do not match'
-            });
+    if (results.length > 0) {
+        return res.status(400).json({ message: 'Email already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 8);
+
+    db.query(
+        'INSERT INTO users SET ?',
+        { name, email, password: hashedPassword },
+        (err) => {
+            if (err) return res.status(500).json({ error: err });
+
+            return res.json({ message: "User registered successfully" });
         }
-
-    
-        const hashedPassword = await bcrypt.hash(password, 8);
-
-        await db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword });
-
-        const thankYouPath = path.join(__dirname, '../thanku/thankyou.html');
-
-        // Redirect to the thank-you.html file
-        return res.sendFile(thankYouPath);
-
+    );
+});
 
 
     } catch (error) {
