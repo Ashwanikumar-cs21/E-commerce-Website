@@ -34,13 +34,6 @@ app.set('view engine', 'hbs');
 
 
 
-db.connect( (error) => {
-    if(error) {
-        console.log(error)
-    } else {
-        console.log("mySql connected.....")
-    }
-})
 
 //Define Routes
 app.use('/', require('./routes/pages'));

@@ -14,14 +14,7 @@ const db = mysql.createPool({
   connectTimeout: 10000
 });
 
-// CONNECT DB
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-  } else {
-    console.log("MySQL Connected");
-  }
-});
+
 
 
 // ================= LOGIN =================
