@@ -4,6 +4,8 @@ const path = require('path');
 const mysql = require("mysql2");
 const dotenv = require('dotenv');
 
+app.use(cors());
+
 
 dotenv.config({ path: './.env'});
 
@@ -43,6 +45,7 @@ db.connect( (error) => {
 //Define Routes
 app.use('/', require('./routes/pages'));
 app.use('/auth',require('./routes/auth'));
+pp.use('/api', require('./routes/auth'));
 
 
 const PORT = process.env.PORT || 5000;
@@ -50,4 +53,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log("server start");
 })
-app.use(cors());
