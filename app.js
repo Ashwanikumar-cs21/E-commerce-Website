@@ -1,5 +1,4 @@
 import cors from "cors";
-const cors = require("cors");
 const express = require("express");
 const path = require('path');
 const mysql = require("mysql");
@@ -48,6 +47,6 @@ app.use('/auth',require('./routes/auth'));
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log("server started on port 5002");
+    console.log("server start");
 })
 app.use(cors());
