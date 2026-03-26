@@ -2,11 +2,16 @@ const bcrypt = require('bcryptjs');
 const mysql = require('mysql2');
 
 // DB connection
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.DATABASE_HOST,
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE,
+  port: process.env.DB_PORT,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 10000
 });
 
 // CONNECT DB
