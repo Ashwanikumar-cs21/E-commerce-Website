@@ -12,8 +12,7 @@ const db = mysql.createPool({
   queueLimit: 0
 });
 
-
-
+// ================= LOGIN =================
 exports.login = (req, res) => {
   const { email, password } = req.body;
 
@@ -21,7 +20,11 @@ exports.login = (req, res) => {
     return res.status(400).render('login', { message: 'Email and password required' });
 
   db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-    if (err) return res.status(500).render('login', { message: 'Server error' });
+
+    if (err) {
+      console.error("LOGIN ERROR:", err);  
+      return res.status(500).render('login', { message: err.message });
+    }
 
     if (results.length === 0)
       return res.status(400).render('login', { message: 'User not found' });
@@ -36,6 +39,7 @@ exports.login = (req, res) => {
   });
 };
 
+// ================= REGISTER =================
 exports.register = (req, res) => {
   const { name, email, password, passwordConfirm } = req.body;
 
@@ -46,16 +50,30 @@ exports.register = (req, res) => {
     return res.status(400).render('register', { message: 'Passwords do not match' });
 
   db.query('SELECT email FROM users WHERE email = ?', [email], async (err, results) => {
-    if (err) return res.status(500).render('register', { message: 'Server error' });
+
+    if (err) {
+      console.error("CHECK EMAIL ERROR:", err);  
+      return res.status(500).render('register', { message: err.message });
+    }
 
     if (results.length > 0)
       return res.status(400).render('register', { message: 'Email already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 8);
 
-    db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword }, (err) => {
-      if (err) return res.status(500).render('register', { message: 'Registration failed' });
-      res.redirect('/login');
-    });
+    db.query(
+      'INSERT INTO users SET ?',
+      { name, email, password: hashedPassword },
+      (err) => {
+
+        if (err) {
+          console.error("INSERT ERROR:", err);  
+          return res.status(500).render('register', { message: err.message });
+        }
+
+        console.log("User Registered Successfully");
+        res.redirect('/login');
+      }
+    );
   });
 };
