@@ -6,6 +6,10 @@ const router = express.Router();
 router.post('/login', authController.login);
 router.post('/register', authController.register);
 
+// Auth page GET routes
+router.get('/login', (req, res) => res.render('login'));
+router.get('/register', (req, res) => res.render('register'));
+
 // Pages
 router.get('/home', (req, res) => res.render('Home'));
 router.get('/sell', (req, res) => res.render('sell'));
