@@ -4,24 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Profile</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
     <link rel="stylesheet" href="/profile.css">
+    <style>
+        * { padding: 0; margin: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        #header {
+            height: 8vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 80px;
+            background-color: beige;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        #header img { width: 20vh; }
+        #navbar { display: flex; align-items: center; list-style: none; }
+        #navbar li { padding: 0 20px; }
+        #navbar li a { text-decoration: none; font-size: 16px; font-weight: 600; color: black; }
+        #navbar li a:hover, #navbar li a.active { color: green; }
+
+        .profile-wrapper {
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4f6f8;
+            padding: 40px 20px;
+        }
+        .profile-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            padding: 50px 60px;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+        }
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: green;
+            color: #fff;
+            font-size: 42px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+        }
+        .profile-card h2 {
+            font-size: 24px;
+            color: #222;
+            margin-bottom: 6px;
+        }
+        .profile-card .email {
+            font-size: 15px;
+            color: #777;
+            margin-bottom: 30px;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            text-align: left;
+        }
+        .info-row i { color: green; font-size: 18px; width: 20px; }
+        .info-row span { font-size: 15px; color: #333; }
+        .logout-btn {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 12px 40px;
+            background: red;
+            color: #fff;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover { background: #c0392b; }
+    </style>
 </head>
 <body>
 
+<section id="header">
+    <a href="/"><img src="/image/logo.png" alt=""></a>
+    <div>
+        <ul id="navbar">
+            <li><a href="/auth/home">Home</a></li>
+            <li><a href="/auth/sell">Sell</a></li>
+            <li><a href="/auth/about">About</a></li>
+            <li><a class="active" href="/auth/profile">Profile</a></li>
+        </ul>
+    </div>
+</section>
 
-    <div id="profile-container">
-        <h1>Your Profile</h1>
-        <img id="profile-image" src="path/to/your/image.jpg" alt="Profile Image">
-        <p>Name: {{user.name}}</p>
-        <p>Email: {{user.email}}</p>
-    
-      
+<div class="profile-wrapper">
+    <div class="profile-card">
+        <div class="avatar">{{firstLetter}}</div>
+        <h2>{{user.name}}</h2>
+        <p class="email">{{user.email}}</p>
+
+        <div class="info-row">
+            <i class="fa fa-user"></i>
+            <span>{{user.name}}</span>
+        </div>
+        <div class="info-row">
+            <i class="fa fa-envelope"></i>
+            <span>{{user.email}}</span>
+        </div>
+
+        <a href="/auth/logout" class="logout-btn">Log Out</a>
+    </div>
 </div>
-<div class="out">
-   <a href="/login"> <h5>Log Out</h5></a>
-</div>
-
-
 
 </body>
 </html>
