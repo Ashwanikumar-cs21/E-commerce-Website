@@ -1,17 +1,10 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
-const session = require('express-session');
 
 dotenv.config({ path: './.env' });
 
 const app = express();
-
-app.use(session({
-  secret: 'ecom_secret_key',
-  resave: false,
-  saveUninitialized: false
-}));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));

@@ -42,7 +42,6 @@ exports.login = (req, res) => {
     if (!isMatch)
       return res.status(400).render('login', { message: 'Incorrect password' });
 
-    req.session.user = { id: user.id, name: user.name, email: user.email };
     res.redirect('/auth/sell');
   });
 };
