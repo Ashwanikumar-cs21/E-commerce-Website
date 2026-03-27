@@ -55,7 +55,7 @@ exports.login = (req, res) => {
       // REMOVE PASSWORD from response
       delete user.password;
 
-      return res.json('home');
+      return res.redirect('/auth/sell');
     }
   );
 };
